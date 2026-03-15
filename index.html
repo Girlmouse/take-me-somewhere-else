@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Take Me Somewhere Else — The Bus</title>
+<title>Take Me Somewhere Else</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#111; color:#f0f0f0; font-family: Georgia, 'Times New Roman', serif; min-height:100vh; display:flex; align-items:flex-start; justify-content:center; padding: 2rem 1rem; }
@@ -16,26 +16,24 @@ body { background:#111; color:#f0f0f0; font-family: Georgia, 'Times New Roman', 
 .story-card h3 { font-size:17px; font-weight:400; color:#f0f0f0; margin-bottom:5px; }
 .story-card p { font-size:13px; color:#666; font-family:monospace; }
 .story-card.locked { opacity:0.3; cursor:not-allowed; pointer-events:none; }
-.coming-soon { font-size:11px; color:#444; font-family:monospace; letter-spacing:2px; text-align:center; margin-top:2rem; }
+.coming-soon { font-size:11px; color:#333; font-family:monospace; letter-spacing:2px; text-align:center; margin-top:2rem; }
 #screen-story, #screen-end { display:none; }
 #story-header { display:flex; align-items:center; gap:12px; margin-bottom:2rem; }
 #back-btn { background:none; border:none; color:#555; cursor:pointer; font-family:monospace; font-size:12px; letter-spacing:1px; text-transform:uppercase; padding:0; }
 #back-btn:hover { color:#aaa; }
 #story-name { font-family:monospace; font-size:11px; letter-spacing:3px; color:#444; text-transform:uppercase; }
-#story-image { text-align:center; margin:1.5rem 0 1rem; min-height:10px; }
-#story-image svg { max-width:160px; }
-#story-text { font-size:17px; line-height:1.85; color:#e0e0e0; margin-bottom:2rem; white-space: pre-line; }
+#story-image { text-align:center; margin:1.5rem 0 1rem; }
+#story-text { font-size:17px; line-height:1.88; color:#e0e0e0; margin-bottom:2rem; white-space:pre-line; }
 #choices { display:flex; flex-direction:column; gap:10px; margin-bottom:2rem; }
 .choice-btn { background:#1a1a1a; border:1px solid #2a2a2a; border-radius:8px; padding:14px 18px; text-align:left; cursor:pointer; font-size:15px; font-family:Georgia, serif; color:#ddd; line-height:1.5; transition: background 0.2s, border-color 0.2s; }
 .choice-btn:hover { background:#222; border-color:#555; }
 .choice-btn:active { transform:scale(0.99); }
-.choice-btn.locked { opacity:0.3; cursor:not-allowed; border-style: dashed; }
-.choice-btn.locked:hover { background:#1a1a1a; border-color:#2a2a2a; }
-#progress { font-family:monospace; font-size:11px; color:#333; letter-spacing:1px; text-align:right; margin-bottom:1rem; }
+.continue-btn { background:none; border:none; color:#555; font-family:monospace; font-size:12px; letter-spacing:2px; cursor:pointer; text-transform:uppercase; padding:8px 0; display:block; margin:0 auto; }
+.continue-btn:hover { color:#aaa; }
 #screen-end { text-align:left; }
 #end-tag { font-family:monospace; font-size:11px; letter-spacing:3px; color:#444; text-transform:uppercase; margin-bottom:1.5rem; text-align:center; }
 #end-image { text-align:center; margin:1rem 0 1.5rem; }
-#end-text { font-size:17px; line-height:1.85; color:#e0e0e0; margin-bottom:2.5rem; white-space: pre-line; }
+#end-text { font-size:17px; line-height:1.88; color:#e0e0e0; margin-bottom:2.5rem; white-space:pre-line; }
 .end-btns { display:flex; gap:10px; flex-wrap:wrap; }
 .end-btn { font-family:monospace; font-size:12px; letter-spacing:2px; color:#888; background:none; border:1px solid #2a2a2a; border-radius:8px; padding:10px 20px; cursor:pointer; text-transform:uppercase; }
 .end-btn:hover { border-color:#555; color:#ccc; }
@@ -45,25 +43,21 @@ body { background:#111; color:#f0f0f0; font-family: Georgia, 'Times New Roman', 
 </head>
 <body>
 <div id="app">
-
   <div id="screen-title">
     <h1>Take me somewhere else</h1>
     <div class="sub">choose your adventure</div>
     <div id="story-list"></div>
     <div class="coming-soon">more stories coming soon</div>
   </div>
-
   <div id="screen-story">
     <div id="story-header">
       <button id="back-btn" onclick="goHome()">← stories</button>
       <div id="story-name"></div>
     </div>
-    <div id="progress"></div>
     <div id="story-image"></div>
     <div id="story-text"></div>
     <div id="choices"></div>
   </div>
-
   <div id="screen-end">
     <div id="end-tag">the end</div>
     <div id="end-image"></div>
@@ -73,7 +67,6 @@ body { background:#111; color:#f0f0f0; font-family: Georgia, 'Times New Roman', 
       <button class="end-btn" onclick="goHome()">other stories</button>
     </div>
   </div>
-
 </div>
 
 <script>
@@ -87,20 +80,22 @@ const STORIES = [
     nodes: {
 
       opening: {
-        text: "You had a crappy day and your feet hurt and your boss said something passive-aggressive about your report. Again. You drag yourself onto the 6:15 bus and survey your options.",
+        text: "You had a crappy day and your feet hurt and your boss said something passive-aggressive about your report. Again. You can't wait to get home and relax.\n\nYou drag yourself onto the 6:15 bus and survey your options.",
         choices: [
           { label: "By the window — lean against it, breathe", goes_to: "window" },
-          { label: "Back of the bus — full view of everyone", goes_to: "back_of_bus", locked: true }
+          { label: "Back of the bus — full view of everyone", goes_to: "back_of_bus" }
         ]
       },
 
-      // ─── PATH A: WINDOW SEAT ───────────────────────────────────────
+      // ═══════════════════════════════════════
+      // PATH A — WINDOW, FALLS ASLEEP
+      // ═══════════════════════════════════════
 
       window: {
         text: "Good choice. The city slides by in streaks of orange light. Your eyes get heavy. The hum of the engine is practically a lullaby. You think: just five minutes. Five minutes won't hurt.",
         choices: [
           { label: "Close your eyes. Just for a second.", goes_to: "asleep" },
-          { label: "Stay alert — your friend Morty got mugged on a bus last week.", goes_to: "morty", locked: true }
+          { label: "Stay alert — your friend Morty got mugged on a bus last week.", goes_to: "stay_alert" }
         ]
       },
 
@@ -109,129 +104,449 @@ const STORIES = [
         image: "panic",
         choices: [
           { label: "Check your pockets. Just in case.", goes_to: "check_pockets" },
-          { label: "Straighten up and try to look normal.", goes_to: "look_normal", locked: true }
+          { label: "Straighten up and try to look normal.", goes_to: "look_normal_a" }
         ]
+      },
+
+      look_normal_a: {
+        text: "You sit up straight, run a hand through your hair, and stare ahead like someone who has definitely been awake the whole time and was simply resting their eyes in a very dignified way.\n\nYou reach your stop. You get off. You go home.\n\nYou sleep for eleven hours.",
+        is_ending: true
       },
 
       check_pockets: {
         text: "Your hand hits your pocket. Then your other pocket. Then your jacket. Then all your pockets again in a panic spiral. Your wallet is gone. GONE. Cash, cards, your library card from 2019 — all gone.",
         image: "panic",
         choices: [
-          { label: "Look around frantically for the thief.", goes_to: "look_around", locked: true },
-          { label: "Check under the seat. Please be under the seat.", goes_to: "under_seat" }
+          { label: "Check under the seat. Please be under the seat.", goes_to: "under_seat" },
+          { label: "Look around frantically for the thief.", goes_to: "look_around_a" }
         ]
+      },
+
+      look_around_a: {
+        text: "You spin around scanning every face. Your eyes are wild. Your energy is unhinged. A small child starts crying.\n\nThen your hand brushes your inside jacket pocket. The wallet was there the whole time.\n\nYou sit back down slowly. The child is still crying. You look out the window the rest of the way home.",
+        is_ending: true
       },
 
       under_seat: {
         text: "You get down on the floor of the bus. The floor of a public bus. In your work clothes. Your wallet is not there. A gum wrapper is. And something unidentifiable. But no wallet.",
         choices: [
-          { label: "Stand up and stare intensely at the people sitting closest to you.", goes_to: "stare_down" },
-          { label: "Sit back quietly and try to keep a calm face.", goes_to: "calm_face", locked: true }
+          { label: "Stand up and stare intensely at everyone around you.", goes_to: "stare_down" },
+          { label: "Sit back quietly and try to keep a calm face.", goes_to: "calm_face_a" }
         ]
+      },
+
+      calm_face_a: {
+        text: "You sit back up. Smooth your jacket. Breathe. You are fine. Everything is fine. You will deal with this calmly like an adult.\n\nYour stop arrives. You get off. You call your bank from the sidewalk. They put you on hold for 22 minutes. The hold music is a pan flute version of My Heart Will Go On.\n\nYou are fine.",
+        is_ending: true
       },
 
       stare_down: {
         text: "You scan every face on the bus with the energy of a conspiracy theorist. Nobody looks guilty. Everybody looks guilty. Then you notice — the guy two seats ahead is holding a wallet. A brown wallet. YOUR brown wallet.",
         choices: [
-          { label: "Confront him loudly.", goes_to: "confront_loud", locked: true },
-          { label: "Sit closer to investigate quietly.", goes_to: "sit_closer" }
+          { label: "Sit closer to investigate quietly.", goes_to: "sit_closer" },
+          { label: "Confront him loudly.", goes_to: "confront_loud_a" }
         ]
+      },
+
+      confront_loud_a: {
+        text: "You stand up. 'Excuse me, that's MY wallet!'\n\nThe man turns around. He is approximately 90 years old. The wallet has a cat on it. You do not have a cat. You have never had a cat.\n\nYou apologize for four stops. He pats your hand and says 'happens to the best of us, sweetheart.' Your actual wallet was in your coat pocket the whole time.\n\nYou do not make eye contact with anyone for the rest of the ride.",
+        is_ending: true
       },
 
       sit_closer: {
         text: "You stare at the wallet he's holding, trying really hard to confirm it's yours before confronting him. One second you're certain it's yours, the next you have doubts.",
         choices: [
-          { label: "Say quietly: 'Excuse me, is that your wallet?'", goes_to: "ask_quietly", locked: true },
-          { label: "Take out your phone and zoom in to take a picture.", goes_to: "zoom_photo" }
+          { label: "Take out your phone and zoom in to take a picture.", goes_to: "zoom_photo" },
+          { label: "Say quietly: 'Excuse me, is that your wallet?'", goes_to: "ask_quietly_a" }
         ]
+      },
+
+      ask_quietly_a: {
+        text: "'Excuse me, is that your wallet?'\n\nThe man looks at you. Looks at the wallet. Looks back at you.\n\n'Yes,' he says simply. And turns back around.\n\nYou sit with that for two stops. Then you check your jacket pocket. Your wallet is there. It was always there.\n\nYou get off at your stop and walk home without making a sound.",
+        is_ending: true
       },
 
       zoom_photo: {
-        text: "You are about to take a close-up picture of the wallet when your phone rings. It's your mom.",
+        text: "You are about to take a close-up picture of the wallet when your phone rings.\n\nIt's your mom.",
         choices: [
-          { label: "Answer it.", goes_to: "answer_mom" },
-          { label: "Ignore it.", goes_to: "ignore_mom", locked: true }
+          { label: "Answer it.", goes_to: "answer_mom_a" },
+          { label: "Ignore it.", goes_to: "ignore_mom_a" }
         ]
       },
 
-      answer_mom: {
-        text: "Your mom is talking up a storm about a new book she picked up. You hunch down, whispering that it's not a good time. She can barely hear you and keeps talking. You finally say a bit louder 'I'll call you back, ok?' and hang up.\n\nIn that short time the bus made a stop. The man with the wallet is gone.",
+      ignore_mom_a: {
+        text: "You decline the call and refocus on your mission. You zoom in on the wallet. You take the photo. You zoom in further.\n\nIt has a cat on it.\n\nYou check your jacket pocket. Your wallet is there.\n\nYour mom calls again. And again. By the time you get home she has left three voicemails, a text that says 'why are you ignoring me', and has apparently called your aunt to ask if you seemed okay lately.\n\nYou call her back. You are on the phone for forty five minutes. You never mention the wallet.",
+        is_ending: true
+      },
+
+      answer_mom_a: {
+        text: "Your mom is talking up a storm about a new book she picked up. You hunch down whispering that it's not a good time. She can barely hear you and keeps talking. You finally say a bit louder 'I'll call you back, ok?' and hang up.\n\nIn that short time the bus made a stop. The man with the wallet is gone.",
         choices: [
-          { label: "Yell at the driver to stop the bus!", goes_to: "yell_driver", locked: true },
-          { label: "Freeze. Your face shows everything.", goes_to: "freeze" }
+          { label: "Freeze. Your face shows everything.", goes_to: "freeze" },
+          { label: "Yell at the driver to stop the bus!", goes_to: "yell_driver_a" }
         ]
+      },
+
+      yell_driver_a: {
+        text: "'STOP THE BUS!'\n\nThe driver stops the bus. Everyone lurches forward. Seven people grab the rail. A coffee spills. The driver turns around slowly.\n\n'...This is a bus stop,' he says. 'I was already stopping.'\n\nYou sit back down. The coffee person is not happy. You look out the window the rest of the way home and never speak of this.",
+        is_ending: true
       },
 
       freeze: {
-        text: "As you sit there contemplating your life choices, your eyes land on a new passenger who just boarded. They're putting away a wallet as they find their seat. It also kind of looks like yours.\n\nYou sit up and —",
+        text: "As you sit there, your eyes land on a new passenger who just boarded. They're putting away a wallet as they find their seat. It also kind of looks like yours.\n\nYou sit up and —",
         choices: [
-          { label: "Look around the bus like you are questioning reality.", goes_to: "question_reality", locked: true },
-          { label: "Check your pockets one more time.", goes_to: "wallet_back" }
+          { label: "Check your pockets one more time.", goes_to: "wallet_back" },
+          { label: "Look around the bus like you are questioning reality.", goes_to: "question_reality_a" }
         ]
+      },
+
+      question_reality_a: {
+        text: "You look around the bus slowly. The seats. The windows. The other passengers. Everything looks slightly too normal. Suspiciously normal.\n\nYou check your pockets. Wallet is there. It was always there.\n\nYou ride the rest of the way home in silence, not fully convinced any of this is real.",
+        is_ending: true
       },
 
       wallet_back: {
         text: "You check your pockets and — to your complete disbelief — the wallet is there. WHAT IN THE WORLD IS HAPPENING? You take it out. Inspect it. Looks fine. You put it back, sit up, let out a long sigh while rubbing your forehead.\n\nAs your eyes focus back on the road you realize you don't recognize the street. You reach for your phone. It's dead.",
         choices: [
-          { label: "Get up and ask the driver where you are.", goes_to: "ask_driver", locked: true },
-          { label: "Ask the passenger in front of you about the next stop.", goes_to: "tap_passenger" }
+          { label: "Ask the passenger in front of you about the next stop.", goes_to: "tap_passenger" },
+          { label: "Get up and ask the driver where you are.", goes_to: "ask_driver_a" }
         ]
+      },
+
+      ask_driver_a: {
+        text: "You walk to the front of the bus and ask the driver where you are.\n\nHe glances at you in the mirror. 'Same route it's always been,' he says.\n\nYou look out the windshield. The street does look familiar now. You walk back to your seat. Maybe you were just tired. You get off at your stop.\n\nYou don't look back.",
+        is_ending: true
       },
 
       tap_passenger: {
         text: "You tap them gently on the shoulder. 'Excuse me, do you know what the next station is?'\n\nThey don't react. You try again, a little harder.\n\nYou let out a loud shriek as you watch their head fall off and roll down the aisle all the way to the front of the bus, stopping next to the driver — who acts completely clueless. Nobody else reacts. As you look around you realize the other passengers look like mannequins.",
         image: "panic",
         choices: [
-          { label: "Go full panic mode.", goes_to: "panic_mode", locked: true },
-          { label: "Start laughing and knock off all the mannequin heads.", goes_to: "knock_heads" }
+          { label: "Start laughing and knock off all the mannequin heads.", goes_to: "knock_heads" },
+          { label: "Go full panic mode.", goes_to: "panic_mode_a" }
         ]
+      },
+
+      panic_mode_a: {
+        text: "You back away slowly from the headless mannequin. You press yourself against the window. You look left. You look right. Every single passenger — a mannequin. Perfectly still. Perfectly dressed. The bus hums along.\n\nThe driver turns around. Also a mannequin.\n\nThe bus is driving itself.\n\nYou sit very still for the next four stops and get off without saying a word. You walk home. You make tea. You never take the 6:15 again.",
+        is_ending: true
       },
 
       knock_heads: {
         text: "You give into the chaos completely. One by one. Pop. Pop. Pop.\n\nThen one of the heads on the floor starts talking. 'I'm hungry for some toes... yum yum yum!' The other heads join in, all rolling toward you. You jump onto a seat as they close in and scream:\n\n'DON'T EAT MY TOES, YOU PLASTIC MONSTERS!'\n\nThe bus jerks hard. The world goes dark.",
         image: "panic",
         choices: [
-          { label: "You hear laughter all around.", goes_to: "ending_a1" },
-          { label: "You hear a voice say 'are you ok?'", goes_to: "ending_a2", locked: true }
+          { label: "...", goes_to: "wake_up" }
+        ]
+      },
+
+      wake_up: {
+        text: "You open your eyes.\n\nThe passengers are laughing — some to themselves, some together. A group of teenagers holds up a phone, replaying a video of you screaming 'DON'T EAT MY TOES, YOU PLASTIC MONSTERS!'\n\nYou realize what happened. You stand up slowly.\n\nAnd take a bow.\n\nThe bus applauds.",
+        choices: [
+          { label: "...", goes_to: "ending_a1" }
         ]
       },
 
       ending_a1: {
-        text: "You open your eyes. The passengers are laughing — some to themselves, some together. A group of teenagers holds up a phone, replaying a video of you screaming 'DON'T EAT MY TOES, YOU PLASTIC MONSTERS!'\n\nYou realize what happened. You stand up slowly. And take a bow.\n\nThe bus applauds.\n\nYour stop is coming up. You sit down and reach for your phone — a few texts, a missed call from mom. She left a voicemail.\n\n'Hi honey, it's mom. Call me back when you get home, ok? And watch those toes!'\n\nShe laughs. Loud.",
-        is_ending: true,
-        ending_type: "twist"
+        text: "Your stop. You get off into the cool evening air and start walking home, the applause still ringing in your ears.\n\nYou check your pockets. Wallet: present. Dignity: somewhere back on the bus.\n\nYou get inside, drop your bag, kick off your shoes. You notice a missed call from mom. She left a voicemail.\n\nYou press play.\n\n'Hi honey, it's mom. Just checking in. Call me back when you get home ok? Oh and honey —'\n\nA pause.\n\n'Watch those toes.'\n\nShe hangs up. No laugh. No explanation.\n\nYou stand in your hallway for a long time.",
+        is_ending: true
       },
 
-      // ─── PATH A ALTERNATE ENDING (locked) ─────────────────────────
-      ending_a2: {
-        text: "[ coming soon ]",
-        is_ending: true,
-        ending_type: "good",
-        locked: true
-      },
+      // ═══════════════════════════════════════
+      // PATH B — WINDOW, STAYS ALERT
+      // ═══════════════════════════════════════
 
-      // ─── PATH B: BACK OF BUS (all locked) ─────────────────────────
-      back_of_bus: {
-        text: "[ coming soon ]",
-        locked: true,
+      stay_alert: {
+        text: "You sit up straight. Stay sharp. Morty lost his wallet AND his good headphones on the 47 line. Not you. Not today.\n\nThe city rolls by. Nothing happens. You pull out your phone out of pure boredom.",
         choices: [
-          { label: "[ coming soon ]", goes_to: "back_of_bus", locked: true },
-          { label: "[ coming soon ]", goes_to: "back_of_bus", locked: true }
+          { label: "Check your emails.", goes_to: "check_email" }
         ]
       },
 
-      // ─── LOCKED BRANCHES (placeholders) ───────────────────────────
-      morty:          { text:"[ coming soon ]", locked:true, choices:[] },
-      look_normal:    { text:"[ coming soon ]", locked:true, choices:[] },
-      look_around:    { text:"[ coming soon ]", locked:true, choices:[] },
-      calm_face:      { text:"[ coming soon ]", locked:true, choices:[] },
-      confront_loud:  { text:"[ coming soon ]", locked:true, choices:[] },
-      ask_quietly:    { text:"[ coming soon ]", locked:true, choices:[] },
-      ignore_mom:     { text:"[ coming soon ]", locked:true, choices:[] },
-      yell_driver:    { text:"[ coming soon ]", locked:true, choices:[] },
-      question_reality:{ text:"[ coming soon ]", locked:true, choices:[] },
-      ask_driver:     { text:"[ coming soon ]", locked:true, choices:[] },
-      panic_mode:     { text:"[ coming soon ]", locked:true, choices:[] },
+      check_email: {
+        text: "Bad idea. There it is — an email from your boss, sent to the entire team at 5:47pm on a Friday.\n\n'Hi all, just a reminder that this Saturday will be a mandatory half day for all staff. See you at 9am bright and early! :)'\n\nThe smiley face. The smiley face is what does it.",
+        choices: [
+          { label: "Say out loud: 'Oh give me a break, you rotten carrot.'", goes_to: "rotten_carrot" },
+          { label: "Let out a sharp 'HA!' without meaning to.", goes_to: "rotten_carrot" }
+        ]
+      },
+
+      rotten_carrot: {
+        text: "Several heads turn. A woman with a tote bag blinks at you. An older gentleman lowers his newspaper. A kid stares.\n\nYou are being looked at. By everyone. On the bus.",
+        interlude: true,
+        choices: [
+          { label: "Whisper sorry and put your phone away.", goes_to: "sorry_phone_away" },
+          { label: "Say nothing and keep typing angrily.", goes_to: "angry_typing" }
+        ]
+      },
+
+      sorry_phone_away: {
+        text: "You mouth a small sorry to no one in particular and tuck your phone away. The heads turn back. The newspaper goes back up.\n\nThree seconds later your phone rings.\n\nIt's your mom.",
+        choices: [
+          { label: "Answer it.", goes_to: "answer_mom_b" },
+          { label: "Ignore it.", goes_to: "ignore_mom_b" }
+        ]
+      },
+
+      ignore_mom_b: {
+        text: "You silence the call. She'll understand. Or she'll call your aunt. Either way.\n\nYou ride the rest of the way in peaceful silence. Your stop arrives and you get off, walking the familiar blocks home.\n\nYou get the mail on your way in. Bills, a takeout menu, something from the dentist. And at the bottom of the pile, a colorful flyer.\n\n'FREE SAMPLE — The best hair growth supplement on the market! All natural. With chia seeds!'\n\nYou stand in your hallway and stare at it for a while.",
+        is_ending: true
+      },
+
+      answer_mom_b: {
+        text: "You answer. She launches immediately into something she saw on Facebook about chia seeds for hair loss. How they strengthen follicles. How there's a whole article. How you've seemed unhappy with your hair lately and she just thought—",
+        choices: [
+          { label: "...", goes_to: "chia_article" }
+        ]
+      },
+
+      chia_article: {
+        text: "She starts reading the article out loud. All of it. Including the subheadings. You sit and listen, watching the city go by, phone pressed to your ear, expression completely neutral like a person who has fully accepted their fate.",
+        choices: [
+          { label: "...", goes_to: "chia_choice" }
+        ]
+      },
+
+      chia_choice: {
+        text: "She finishes. There is a brief pause. She is waiting.",
+        choices: [
+          { label: "'Ok thanks mom, I'll check it out. I gotta go, talk to you later.'", goes_to: "chia_thanks" },
+          { label: "'My hair is fine. Chia seeds are for birds.'", goes_to: "chia_birds" }
+        ]
+      },
+
+      chia_thanks: {
+        text: "She sounds satisfied. You hang up and let out a long slow sigh, eyes landing briefly on the passenger across from you who has been very obviously listening this whole time. They look away. You look away.\n\nYour stop. You get off, walk home, collect the mail on your way in.\n\nYou drop it on the counter. A colorful flyer slides out from between the envelopes.\n\n'FREE SAMPLE — The best hair growth supplement on the market! All natural. With chia seeds!'\n\nYou stand there for a moment.\n\nThen you put the kettle on.",
+        is_ending: true
+      },
+
+      chia_birds: {
+        text: "Your mom laughs. Loud and genuine. 'Ok ok,' she says. You smile despite yourself and cut it short — 'talk to you later mom' — and hang up.\n\nYou put your phone away and your eyes land on the passenger in the next seat across the aisle. They're eating a snack. The bag says: CHIA SEEDS — Healthy Snack Mix.\n\nYour eyes meet. The bus jerks. It's your stop.\n\nYou say nothing. You get up. In your haste you step off one stop too early.\n\nYou walk the rest of the way home in the cool evening air, hands in pockets, thinking about nothing in particular.",
+        is_ending: true
+      },
+
+      angry_typing: {
+        text: "You are typing so fast and so angrily that the next twenty minutes simply cease to exist for you. Your thumbs are a blur. You are composing the world's most passive-aggressive mental email that you will never actually send.\n\nYou look up.\n\nThe bus is empty.\n\n'END OF THE LINE!' the driver calls.",
+        choices: [
+          { label: "...", goes_to: "end_of_line" }
+        ]
+      },
+
+      end_of_line: {
+        text: "You gather your things and shuffle off. The doors hiss shut behind you. The bus pulls away.\n\nJust you, a bus stop kiosk, and a sky that looks personally offended by your existence.",
+        choices: [
+          { label: "...", goes_to: "check_schedule" }
+        ]
+      },
+
+      check_schedule: {
+        text: "You check the posted schedule. Next bus: 58 minutes.\n\nYou look at the sky. The sky looks back.\n\nA bench sits next to the kiosk. You sit down to think.",
+        choices: [
+          { label: "...", goes_to: "sat_on_gum" }
+        ]
+      },
+
+      sat_on_gum: {
+        text: "You look around. A few people shuffling past. Some guys near a dumpster. A couple of bus drivers sharing a smoke.\n\nYou decide: walking it is. You stand up.\n\nAnd discover you have sat directly on a large piece of chewed gum.",
+        choices: [
+          { label: "...", goes_to: "gum_meltdown" }
+        ]
+      },
+
+      gum_meltdown: {
+        text: "'OH COME ON, YOU JERK!'\n\nYou are talking to the gum. Everyone near you turns to look.\n\n'NOT THESE PANTS. DIDN'T YOU HAVE ENOUGH? ARE YOU REALLY TRYING TO TAKE EVERYTHING FROM ME? MY PANTS, MY SATURDAY — WHAT'S NEXT, MY FIRST BORN?!'\n\nSilence. The bus drivers stare. A pigeon walks away.\n\nEmbarrassed, you turn around and start walking. Fast.",
+        choices: [
+          { label: "...", goes_to: "walk_home_b2" }
+        ]
+      },
+
+      walk_home_b2: {
+        text: "The anger dwindles somewhere around the third block. The night air helps. Your feet still hurt but the walking is almost meditative now, the city quiet around you.\n\nYou pull out your phone. You never finished what you were doing.",
+        choices: [
+          { label: "...", goes_to: "friend_texts" }
+        ]
+      },
+
+      friend_texts: {
+        text: "You scroll up. Your work friend had been mid-rant with you about the Saturday email. Their last message reads:\n\n'maybe we should both quit and start that business we always talked about'\n\nThen, a few minutes later when you didn't respond:\n\n'hello?? still there?'\n'i was joking of course i need this damn job'\n'see you monday 😭'",
+        choices: [
+          { label: "'sorry, had a situation. i wish we could quit. see you monday 😭'", goes_to: "almost_home_b2" },
+          { label: "Put the phone back in your pocket and keep walking.", goes_to: "almost_home_b2" }
+        ]
+      },
+
+      almost_home_b2: {
+        text: "Almost home. You pass a small shop — the kind that sells everything: newspapers, coffee, scratch offs, snacks, gum. The light is warm inside.\n\nYou push open the door.",
+        choices: [
+          { label: "Get a cup of coffee.", goes_to: "shop_b2" },
+          { label: "Get a hot salty pretzel.", goes_to: "shop_b2" }
+        ]
+      },
+
+      shop_b2: {
+        text: "The merchant looks up. 'What can I get you?'\n\nYou order. He nods. Then: 'Cash only tonight, sorry — card machine's down.'\n\nYou dig out a twenty. He rings it up, then asks if you want anything else to round out the total.\n\nYour eyes land on the scratch off display.",
+        choices: [
+          { label: "Add a $1 scratch off.", goes_to: "scratch_off" }
+        ]
+      },
+
+      scratch_off: {
+        text: "You thank him, take your stuff, and walk the last block home.\n\nYou get inside. Drop everything on the counter. Kick off your shoes. The scratch off sits there on the counter, not really calling to you.\n\nYou sit on the bar stool. Pour the coffee or take a bite of pretzel. Your eyes drift to the scratch off.",
+        choices: [
+          { label: "Scratch it.", goes_to: "ending_b2" }
+        ]
+      },
+
+      ending_b2: {
+        text: "You scratch slowly. The first symbol. The second. The third.\n\nYou stop.\n\nYou scratch again, more carefully this time, to make sure.\n\n$100,000.\n\nYou sit very still for a moment. Outside a car passes. The fridge hums.\n\nYou look exactly like someone who just won $100,000 after the worst Friday of their entire life.",
+        image: "shock",
+        is_ending: true
+      },
+
+      // ═══════════════════════════════════════
+      // PATH C — BACK OF THE BUS
+      // ═══════════════════════════════════════
+
+      back_of_bus: {
+        text: "You head all the way to the back. Good. Nobody back here. Just you and —\n\nOh. One other person. Sitting directly opposite. Big guy. Hoodie pulled up, showing mostly a large beard. Red hoodie. Spiderman symbol on the chest. He's staring at his phone with headphones in.\n\nFine. This is fine.",
+        choices: [
+          { label: "...", goes_to: "first_fart" }
+        ]
+      },
+
+      first_fart: {
+        text: "The bus hums. The city slides by. It is quiet back here. Peaceful even.\n\nThen.\n\nA sound. Unmistakable. Coming from directly across from you.\n\nYou look up. The big guy hasn't moved. Nobody else reacted. Nobody even blinked. You look back out the window.\n\nYou say nothing. You are an adult.",
+        choices: [
+          { label: "...", goes_to: "second_fart" }
+        ]
+      },
+
+      second_fart: {
+        text: "A few minutes pass. You let your thoughts wander. The city. The weekend. Whether you left the stove on.\n\nThen. A second one. Considerably louder.\n\nThe big guy stands up, tucks his phone into his pocket, picks up his bag, and moves to a seat in the middle of the bus.\n\nEvery head in the middle section turns — and looks straight at you.",
+        image: "panic",
+        choices: [
+          { label: "...", goes_to: "tsk_tsk" }
+        ]
+      },
+
+      tsk_tsk: {
+        text: "You almost let it go. You were just going to ride this out in dignified silence.\n\nBut then you see her. An older lady a few seats down, looking directly at you.\n\nShaking her head.\n\nTsk. Tsk. Tsk.",
+        choices: [
+          { label: "Point at the big guy and mouth 'it was HIM'", goes_to: "pointing" }
+        ]
+      },
+
+      pointing: {
+        text: "You point. Clearly. Firmly. The old lady's face shows confusion. You repeat it — pointing again, mouthing the words more slowly this time. Then again. Really committing now, finger extended toward the big guy —\n\nYou freeze.\n\nIn the dark window beside you, you can see his reflection.\n\nHe's watching you.",
+        choices: [
+          { label: "Stand up and announce to the whole bus it was NOT you.", goes_to: "announcement" },
+          { label: "Sink back into your seat. He saw everything.", goes_to: "sink_back" }
+        ]
+      },
+
+      // PATH C1 — THE ANNOUNCEMENT
+      announcement: {
+        text: "You stand up.\n\n'Excuse me everyone. I just want to make it clear — that was NOT me. It was the gentleman who just moved seats.'\n\nYou point.\n\nSilence. Then some mumbles. A grumble or two. The big guy doesn't even look up from his phone.\n\nNobody claps. Nobody nods in solidarity. The old lady is still shaking her head.\n\nYou sit back down. You feel like an idiot. But also somehow lighter.",
+        choices: [
+          { label: "...", goes_to: "bus_stop_c1" }
+        ]
+      },
+
+      bus_stop_c1: {
+        text: "Your stop is next. You're acutely aware that the big guy is still on the bus.\n\nYou need a safety net. You take out your phone and call your mom.",
+        choices: [
+          { label: "...", goes_to: "mom_voicemail_c1" }
+        ]
+      },
+
+      mom_voicemail_c1: {
+        text: "The bus stops. You get off, phone to your ear, listening to it ring.\n\nVoicemail.\n\nYou were about to hang up — but then you notice the big guy also got off at your stop.\n\nThe machine beeps.",
+        choices: [
+          { label: "...", goes_to: "fake_call_c1" }
+        ]
+      },
+
+      fake_call_c1: {
+        text: "'Hi mom, yeah — I'm almost home. Are you on your way? ... Okay, great. Yeah I'm walking from the bus stop. Yes I'm fine. I've got my gun, remember.'\n\nYou pause.\n\n'Okay, see you soon. Love you.'\n\nYou hang up. Heart pounding. You watch from the corner of your eye as the big guy walks past.\n\nHe doesn't glance at you once. His hoodie is half off now. He has headphones in. He had headphones in the whole time.\n\nHe heard nothing. Possibly not even the announcement.\n\nYou stand alone on the sidewalk.\n\n'Well,' you say to no one. 'Mom's going to love that message.'",
+        is_ending: true
+      },
+
+      // PATH C2 — SINK BACK
+      sink_back: {
+        text: "You slide down in your seat as far as physically possible. You are basically on the floor. Your heart is going.\n\nHe saw you. He SAW you. How long was he watching in that window?",
+        choices: [
+          { label: "Text your friend.", goes_to: "text_friend_c2" },
+          { label: "Text your mom.", goes_to: "text_mom_c2" }
+        ]
+      },
+
+      text_friend_c2: {
+        text: "'yo. i might be in trouble. big guy on the bus farted then moved seats and everyone thought it was me so i sort of called him out and he saw me in the window reflection. yo help what do i do'\n\nThe dots appear. You watch them with great intensity.\n\n'yo what the hell are you talking about. big guys farting on the bus? is that a new tiktok trend 💀💀 are you on drugs'\n\nYou let out a small laugh despite everything.\n\n'whatever. if you never hear from me again it was the fart guy. bye'\n\nYou put your phone away. Your stop is coming.",
+        choices: [
+          { label: "...", goes_to: "getting_off_c2" }
+        ]
+      },
+
+      text_mom_c2: {
+        text: "You open a new message to mom.\n\n'hi mom 😊 on the bus, on my way home now. hope you had a nice day'\n\nYou stare at it. Add a heart emoji. Send it.\n\nShe doesn't reply. You put your phone away.\n\nYour stop is coming up. You decide — just in case — to get off one stop early.",
+        choices: [
+          { label: "...", goes_to: "skip_stop_c2" }
+        ]
+      },
+
+      skip_stop_c2: {
+        text: "A lot of people get on and off at the next stop. In the shuffle you completely lose track of whether the big guy got off or not.\n\nYou spot a small cafe nearby. Warm light. You go in.",
+        choices: [
+          { label: "...", goes_to: "cafe_c2" }
+        ]
+      },
+
+      cafe_c2: {
+        text: "You order a coffee. The barista smiles at you — a specific kind of smile. Warm. Intentional. When they hand you the cup there's a phone number written on the side, and a name.",
+        choices: [
+          { label: "Say nothing and leave.", goes_to: "cafe_nothing_c2" },
+          { label: "Smile big and nod like you'll absolutely be calling.", goes_to: "cafe_smile_c2" }
+        ]
+      },
+
+      cafe_nothing_c2: {
+        text: "You walk out into the night, coffee in hand, and take the long way home.\n\nYou get in. Order pizza. Open YouTube and start scrolling.\n\nA video catches your eye — a tutorial for a game you like. The thumbnail shows someone in a red hoodie. Spiderman symbol on the chest.\n\nYou click it.",
+        choices: [
+          { label: "...", goes_to: "ending_c2a" }
+        ]
+      },
+
+      ending_c2a: {
+        text: "'Hey guys — Robbie here. Really nice to see you, and if you're new, welcome, it's really nice to meet you!'\n\nThe voice that comes out of this person is soft. Gentle. Genuinely warm. Like someone who has never in their life caused anyone any distress whatsoever.\n\nYou look at the thumbnail again. The hoodie. The beard. The Spiderman symbol.\n\nWhat are the chances.\n\nYou close the laptop and stare at the ceiling for a while.",
+        image: "shock",
+        is_ending: true
+      },
+
+      cafe_smile_c2: {
+        text: "You smile. Big. And nod once, slow and confident, like someone who has their life completely together and did not just sprint off a bus in a fart-related panic.\n\nYou walk home. You're almost about to toss the cup when you notice the number again.\n\nYou take out your phone.",
+        choices: [
+          { label: "...", goes_to: "ending_c2b" }
+        ]
+      },
+
+      ending_c2b: {
+        text: "'hey. are you free tomorrow night?'\n\nYou watch the screen. The dots appear almost immediately.\n\n'yes I am 😊'\n\nYou smile. You plop onto the couch, still smiling.\n\nOutside the city hums along, completely indifferent to the fact that today, somehow, turned out okay.",
+        is_ending: true
+      },
+
+      getting_off_c2: {
+        text: "Your stop. You stand up, bag in hand, and make your way to the door.\n\nIn the window reflection you see the big guy shift in his seat — standing up —\n\nYou bolt.",
+        choices: [
+          { label: "...", goes_to: "ending_c2_run" }
+        ]
+      },
+
+      ending_c2_run: {
+        text: "You are running. You are fully running down the sidewalk, bag bouncing, shoes loud on the pavement.\n\nAfter half a block you dare to look back.\n\nThe big guy is not behind you. He's still on the bus, visible through the window. He wasn't getting off. He was just changing seats. Again.\n\nYou stand on the sidewalk, breathing hard.\n\nYou open YouTube later that night and a video autoplays — a game tutorial, someone in a red hoodie. Spiderman symbol. Big beard.\n\n'Hey guys, Robbie here — really nice to see you!'\n\nThe gentlest voice you have ever heard.\n\nYou sit with that for a while.",
+        image: "shock",
+        is_ending: true
+      },
+
     }
   },
   {
@@ -244,7 +559,6 @@ const STORIES = [
 
 let currentStory = null;
 let currentNode = null;
-let stepCount = 0;
 
 function goHome() {
   document.getElementById('screen-title').style.display='block';
@@ -256,85 +570,63 @@ function hide(id) { document.getElementById(id).style.display='none'; }
 
 function renderStoryList() {
   document.getElementById('story-list').innerHTML = STORIES.map(s =>
-    `<div class="story-card${s.locked ? ' locked' : ''}" ${!s.locked ? `onclick="startStory('${s.id}')"` : ''}>
-      <h3>${s.title}</h3>
-      <p>${s.tagline}</p>
-    </div>`
+    `<div class="story-card${s.locked?' locked':''}" ${!s.locked?`onclick="startStory('${s.id}')"`:''}><h3>${s.title}</h3><p>${s.tagline}</p></div>`
   ).join('');
 }
 
 function startStory(id) {
-  currentStory = STORIES.find(s => s.id === id);
-  if (!currentStory || currentStory.locked) return;
+  currentStory = STORIES.find(s=>s.id===id);
+  if(!currentStory||currentStory.locked) return;
   currentNode = currentStory.start;
-  stepCount = 0;
-  goHome();
-  hide('screen-title');
-  show('screen-story');
+  hide('screen-title'); hide('screen-end'); show('screen-story');
   document.getElementById('story-name').textContent = currentStory.title.toUpperCase();
   renderNode();
 }
 
 function restartStory() {
   currentNode = currentStory.start;
-  stepCount = 0;
-  hide('screen-end');
-  show('screen-story');
+  hide('screen-end'); show('screen-story');
   renderNode();
 }
 
 function renderNode() {
   const node = currentStory.nodes[currentNode];
-  if (!node) return;
+  if(!node) return;
 
-  if (node.is_ending) {
-    hide('screen-story');
-    show('screen-end');
-    const endText = document.getElementById('end-text');
-    endText.textContent = node.text;
-    endText.className = 'fade';
-    document.getElementById('end-image').innerHTML = '';
+  if(node.is_ending) {
+    hide('screen-story'); show('screen-end');
+    const et = document.getElementById('end-text');
+    et.textContent = node.text;
+    et.className = 'fade';
+    document.getElementById('end-image').innerHTML = node.image ? getSVG(node.image) : '';
     return;
   }
-
-  stepCount++;
-  document.getElementById('progress').textContent = 'step ' + stepCount;
 
   const textEl = document.getElementById('story-text');
   textEl.textContent = node.text;
   textEl.className = 'fade';
-
   document.getElementById('story-image').innerHTML = node.image ? getSVG(node.image) : '';
 
-  document.getElementById('choices').innerHTML = (node.choices || []).map((c, i) =>
-    `<button class="choice-btn${c.locked ? ' locked' : ''}" ${!c.locked ? `onclick="choose(${i})"` : 'disabled'}>
-      ${c.locked ? '[ coming soon ]' : c.label}
-    </button>`
-  ).join('');
+  const choicesEl = document.getElementById('choices');
+  if(node.choices && node.choices.length === 1 && (node.choices[0].label === '...' || node.interlude)) {
+    choicesEl.innerHTML = `<button class="continue-btn" onclick="choose(0)">· · ·</button>`;
+  } else {
+    choicesEl.innerHTML = (node.choices||[]).map((c,i)=>
+      `<button class="choice-btn" onclick="choose(${i})">${c.label}</button>`
+    ).join('');
+  }
 }
 
 function choose(i) {
   const node = currentStory.nodes[currentNode];
-  const choice = node.choices[i];
-  if (choice.locked) return;
-  currentNode = choice.goes_to;
-  window.scrollTo({top:0, behavior:'smooth'});
+  currentNode = node.choices[i].goes_to;
+  window.scrollTo({top:0,behavior:'smooth'});
   renderNode();
 }
 
 function getSVG(type) {
-  if (type==='panic') return `<svg viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg" style="max-width:150px;">
-    <circle cx="90" cy="60" r="50" fill="none" stroke="#f0f0f0" stroke-width="2"/>
-    <ellipse cx="68" cy="52" rx="16" ry="20" fill="#111" stroke="#f0f0f0" stroke-width="2"/>
-    <ellipse cx="112" cy="52" rx="16" ry="20" fill="#111" stroke="#f0f0f0" stroke-width="2"/>
-    <circle cx="68" cy="54" r="9" fill="#f0f0f0"/>
-    <circle cx="112" cy="54" r="9" fill="#f0f0f0"/>
-    <circle cx="71" cy="51" r="3.5" fill="#111"/>
-    <circle cx="115" cy="51" r="3.5" fill="#111"/>
-    <path d="M68 85 Q90 78 112 85" stroke="#f0f0f0" stroke-width="2" fill="none"/>
-    <path d="M52 34 Q62 26 70 33" stroke="#f0f0f0" stroke-width="2" fill="none"/>
-    <path d="M110 33 Q118 26 128 34" stroke="#f0f0f0" stroke-width="2" fill="none"/>
-  </svg>`;
+  if(type==='panic') return `<svg viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg" style="max-width:150px;"><circle cx="90" cy="60" r="50" fill="none" stroke="#f0f0f0" stroke-width="2"/><ellipse cx="68" cy="52" rx="16" ry="20" fill="#111" stroke="#f0f0f0" stroke-width="2"/><ellipse cx="112" cy="52" rx="16" ry="20" fill="#111" stroke="#f0f0f0" stroke-width="2"/><circle cx="68" cy="54" r="9" fill="#f0f0f0"/><circle cx="112" cy="54" r="9" fill="#f0f0f0"/><circle cx="71" cy="51" r="3.5" fill="#111"/><circle cx="115" cy="51" r="3.5" fill="#111"/><path d="M68 85 Q90 78 112 85" stroke="#f0f0f0" stroke-width="2" fill="none"/><path d="M52 34 Q62 26 70 33" stroke="#f0f0f0" stroke-width="2" fill="none"/><path d="M110 33 Q118 26 128 34" stroke="#f0f0f0" stroke-width="2" fill="none"/></svg>`;
+  if(type==='shock') return `<svg viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg" style="max-width:150px;"><circle cx="90" cy="60" r="50" fill="none" stroke="#f0f0f0" stroke-width="2"/><ellipse cx="68" cy="50" rx="16" ry="20" fill="#111" stroke="#f0f0f0" stroke-width="2"/><ellipse cx="112" cy="50" rx="16" ry="20" fill="#111" stroke="#f0f0f0" stroke-width="2"/><circle cx="68" cy="52" r="10" fill="#f0f0f0"/><circle cx="112" cy="52" r="10" fill="#f0f0f0"/><circle cx="68" cy="52" r="4" fill="#111"/><circle cx="112" cy="52" r="4" fill="#111"/><ellipse cx="90" cy="88" rx="12" ry="10" fill="none" stroke="#f0f0f0" stroke-width="2"/></svg>`;
   return '';
 }
 
