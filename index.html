@@ -100,18 +100,34 @@ const STORIES = [
       asleep: {
         text: "You are out.\n\nDeeply, completely, mouth-possibly-open asleep.\n\nThe bus jerks to a sudden stop and you snap back to reality, grabbing the seat in front of you like it personally owes you something. You sit up. Straighten your jacket. Run a hand through your hair.\n\nVery smooth. Nobody saw that.\n\nThen it hits you.\n\nDamn it. You did not mean to fall asleep. Morty got mugged last week on this exact line. Lost his wallet AND his good headphones. His GOOD ones.",
         image: "panic",
-        choices: [{ label: "...", goes_to: "check_pockets" }]
+        choices: [{ label: "...", goes_to: "pocket_choice" }]
+      },
+
+      pocket_choice: {
+        text: "You feel that specific cold wave of dread that starts in your stomach and ends in your pockets.",
+        choices: [
+          { label: "Check your pockets.", goes_to: "check_pockets" },
+          { label: "Maybe you left it at work?", goes_to: "check_pockets" }
+        ]
       },
 
       check_pockets: {
-        text: "You do a casual pocket check. Just a normal, relaxed, totally-not-panicking tap of your jacket.\n\nNothing.\n\nOk. Other pocket. Also nothing. Inside pocket. Nothing. Back pocket — wait, you never put it there. Front again. Other front. Jacket again, but slower this time, more thorough, more desperate.\n\nYour wallet is gone.\n\nGONE.\n\nCash. Cards. Your library card from 2019 that you keep meaning to use. Gone.",
+        text: "Your hand hits your pocket. Then your other pocket. Then your jacket. Then all your pockets again in a full spiral.\n\nYour wallet is gone.\n\nGONE.\n\nCash. Cards. Your library card from 2019 that you keep meaning to use. Gone.",
         image: "panic",
         choices: [{ label: "...", goes_to: "under_seat" }]
       },
 
       under_seat: {
-        text: "Ok. Ok ok ok. Maybe it fell.\n\nYou lean forward and reach under the seat, arm disappearing into the abyss, fingers sweeping across the floor with the grim determination of someone who has fully committed to this and is not going to think too hard about what they might be touching.\n\nSomething sticky. A plastic straw. What feels like a single forgotten french fry.\n\nNo wallet.\n\nYou sit back up and wipe your hand on your pants with a slow, dignified grimace.\n\nAlright. New strategy. You scan the bus.",
-        choices: [{ label: "...", goes_to: "spot_wallet" }]
+        text: "Ok. Ok ok ok. Maybe it fell.\n\nYou lean forward and reach under the seat, arm disappearing into the abyss, fingers sweeping across the floor with the grim determination of someone who has fully committed to this and is not going to think too hard about what they might be touching.\n\nSomething sticky. A plastic straw. What feels like a single forgotten french fry.\n\nNo wallet.\n\nYou sit back up and wipe your hand on your pants with a slow, dignified grimace.\n\nAlright. New strategy.",
+        choices: [{ label: "...", goes_to: "scan_choice" }]
+      },
+
+      scan_choice: {
+        text: "You look around the bus.",
+        choices: [
+          { label: "Try to get a closer look at the other passengers.", goes_to: "spot_wallet" },
+          { label: "Sit tight and observe quietly.", goes_to: "spot_wallet" }
+        ]
       },
 
       spot_wallet: {
@@ -121,11 +137,19 @@ const STORIES = [
 
       zoom_attempt: {
         text: "You raise your phone slowly, like a wildlife photographer who has finally spotted their subject and absolutely cannot spook it.\n\nZoom. A little more. A little more.\n\nYou are crouched slightly in your seat, one eye squinted, tongue possibly sticking out in concentration.\n\nYou get the feeling you are not pulling this off as smoothly as you'd hoped.\n\nYour phone rings.\n\nOf course it does.\n\nIt's your mom.",
-        choices: [{ label: "...", goes_to: "mom_call" }]
+        choices: [{ label: "...", goes_to: "mom_choice" }]
+      },
+
+      mom_choice: {
+        text: "You stare at the screen.\n\nMOM calling.\n\nYou answer.",
+        choices: [
+          { label: "Try to cut her off before she gets going.", goes_to: "mom_call" },
+          { label: "Just let her talk, you can handle it.", goes_to: "mom_call" }
+        ]
       },
 
       mom_call: {
-        text: "You answer and immediately hunch forward, hand cupped around your mouth.\n\n'Mom. Hi. Now is actually not a great—'\n\n'So you know Karen from my book club?' she begins.\n\nYou did not know that Karen was going to be involved in this.\n\n'Mom, I'm on the bus, it's really not a good—'\n\n'She told me about chia seeds. For hair. Now before you say anything—'\n\n'Mom—'\n\n'Just listen.'",
+        text: "You hunch forward, hand cupped around your mouth.\n\n'Mom. Hi. Now is actually not a great—'\n\n'So you know Karen from my book club?' she begins.\n\nYou did not know that Karen was going to be involved in this.\n\n'Mom, I'm on the bus, it's really not a good—'\n\n'She told me about chia seeds. For hair. Now before you say anything—'\n\n'Mom—'\n\n'Just listen.'",
         choices: [{ label: "...", goes_to: "mom_chia" }]
       },
 
@@ -146,11 +170,19 @@ const STORIES = [
 
       wallet_found: {
         text: "It's there.\n\nYour wallet. Right where it has always been, right where you have kept it for the last four years, exactly where you put it this morning.\n\nYou pull it out and stare at it.\n\nOk. Ok so. Your brain is clearly just fried. Absolutely cooked. This is what happens when you work too much and sleep too little and eat lunch at your desk for the fourteenth day in a row. You need to do something fun this weekend. Something that isn't this.\n\nYou put the wallet back and look out the window, already trying to think of plans. Maybe that place your friend recommended. Or just a long walk somewhere new. Or you could finally—\n\nYou stop.\n\nYou don't recognize the street.",
-        choices: [{ label: "...", goes_to: "strange_street" }]
+        choices: [{ label: "...", goes_to: "strange_street_choice" }]
+      },
+
+      strange_street_choice: {
+        text: "You press your face a little closer to the glass.",
+        choices: [
+          { label: "Look closer out the window.", goes_to: "strange_street" },
+          { label: "Try to figure out where you are.", goes_to: "strange_street" }
+        ]
       },
 
       strange_street: {
-        text: "You press closer to the glass.\n\nThe sidewalks are empty. No one walking. Not a single person out there, just a street full of nothing moving.\n\nThe shop signs are all lit up in red — only red — and from this distance you can't quite read them. You squint.\n\nThere's an ice cream parlor on the corner. You think you know that place. You've definitely been to that corner before. But the sign says:\n\nTONNY'S ICE POOPS\n\nYou blink.\n\nIt still says that.\n\nYou reach for your phone.",
+        text: "The sidewalks are empty. No one walking. Not a single person out there, just a street full of nothing moving.\n\nThe shop signs are all lit up in red — only red — and from this distance you can't quite read them. You squint.\n\nThere's an ice cream parlor on the corner. You think you know that place. You've definitely been to that corner before. But the sign says:\n\nTONNY'S ICE POOPS\n\nYou blink.\n\nIt still says that.\n\nYou reach for your phone.",
         choices: [{ label: "...", goes_to: "dead_phone" }]
       },
 
@@ -165,11 +197,19 @@ const STORIES = [
       head_falls: {
         text: "'Excuse me — sorry to bother you, do you know what the next stop is?'\n\nNothing.\n\nYou try again, a little more insistent this time.\n\nWhat happens next will stay with you.\n\nTheir head separates from their body with a sound like a cabinet closing, rolls down the aisle in a slow unhurried arc, and comes to rest against the driver's partition.\n\nThe driver does not react.\n\nYou look left. You look right.\n\nEvery single passenger on this bus is a mannequin. All of them. Perfectly still. Perfectly dressed. Staring at nothing with their beautiful painted eyes.",
         image: "panic",
-        choices: [{ label: "...", goes_to: "slap_moment" }]
+        choices: [{ label: "...", goes_to: "slap_choice" }]
+      },
+
+      slap_choice: {
+        text: "You sit with this information for a moment.\n\nThen you decide to take action.",
+        choices: [
+          { label: "Slap yourself. Wake up.", goes_to: "slap_moment" },
+          { label: "Pinch yourself. Wake up.", goes_to: "slap_moment" }
+        ]
       },
 
       slap_moment: {
-        text: "You sit with this for a moment.\n\nThen you slap yourself across the face.\n\nNothing happens. The mannequins remain. The head is still on the floor.\n\nYou slap yourself again, harder this time, with more intention.\n\nStill nothing. The bus hums along through the empty red street like this is completely normal.\n\nYou stand up.",
+        text: "Nothing happens.\n\nThe mannequins remain. The head is still on the floor. The bus hums along through the empty red street like this is completely normal.\n\nYou try again. Harder. With real commitment this time.\n\nStill nothing.\n\nYou stand up.",
         choices: [{ label: "...", goes_to: "bus_jerks" }]
       },
 
@@ -211,7 +251,7 @@ const STORIES = [
       },
 
       voicemail_end: {
-        text: "You press play.\n\n'Hi honey, it's mom. Just checking in. I haven't heard from you in a few days, just wanted to make sure you were ok. Call me back when you get a chance.'\n\nA pause. The faint sound of the TV in the background.\n\nThen, quieter. Almost as an afterthought.\n\n'Oh and honey —'\n\nA shorter pause.\n\n'Still got all your toes?'\n\nShe laughs once — small, private, like she told herself a joke — and hangs up.\n\nNo explanation.\n\nJust the toes.\n\nYou stand in your hallway for a long time.",
+        text: "You press play.\n\n'Hi honey, it's mom. Just checking in. I haven't heard from you in a few days, just wanted to make sure you were ok. Call me back when you get a chance.'\n\nA pause. The faint sound of the TV in the background.\n\nThen, quieter:\n\n'Oh and honey —'\n\n'Glad you got to keep your toes!'\n\nClick.",
         is_ending: true
       }
 
@@ -301,7 +341,8 @@ function getSVG(type) {
     <circle cx="68" cy="52" r="10" fill="#f0f0f0"/>
     <circle cx="112" cy="52" r="10" fill="#f0f0f0"/>
     <circle cx="71" cy="49" r="4" fill="#111"/>
-    <circle cx="115" cy="49" r="4" fill="#111"/><path d="M70 82 Q90 76 110 82" stroke="#f0f0f0" stroke-width="2" fill="none"/>
+    <circle cx="115" cy="49" r="4" fill="#111"/>
+    <path d="M70 82 Q90 76 110 82" stroke="#f0f0f0" stroke-width="2" fill="none"/>
     <path d="M52 32 Q62 24 70 31" stroke="#f0f0f0" stroke-width="2" fill="none"/>
     <path d="M110 31 Q118 24 128 32" stroke="#f0f0f0" stroke-width="2" fill="none"/>
   </svg>`;
